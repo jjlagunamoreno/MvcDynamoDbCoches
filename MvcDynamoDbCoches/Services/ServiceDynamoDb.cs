@@ -18,20 +18,33 @@ namespace MvcDynamoDbCoches.Services
             this.context = new DynamoDBContext(client);
         }
 
+        public async Task<List<Coche>> BuscarCochesAsync(string filtro)
+        {
+            var scanOptions = new ScanOperationConfig();
+            var tabla = this.context.GetTargetTable<Coche>();
+            var results = tabla.Scan(scanOptions);
+            List<Document> data = await results.GetNextSetAsync();
+            var cars = this.context.FromDocuments<Coche>(data);
+
+            return cars
+                .Where(x =>
+                    (!string.IsNullOrEmpty(x.Marca) && x.Marca.Contains(filtro, StringComparison.OrdinalIgnoreCase)) ||
+                    (!string.IsNullOrEmpty(x.Modelo) && x.Modelo.Contains(filtro, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
+        }
+
         public async Task CreateCocheAsync(Coche car)
         {
             await this.context.SaveAsync<Coche>(car);
         }
 
-        public async Task DeleteCocheAsync(int idCoche)
+        public async Task DeleteCocheAsync(string idCoche)
         {
             await this.context.DeleteAsync<Coche>(idCoche);
         }
 
-        public async Task<Coche> FindCocheAsync(int idCoche)
+        public async Task<Coche> FindCocheAsync(string idCoche)
         {
-            //SI ESTAMOS BUSCANDO POR PARTITION KEY TENEMOS 
-            //UN METODO QUE LO REALIZA POR NOSOTROS
             return await this.context.LoadAsync<Coche>(idCoche);
         }
 

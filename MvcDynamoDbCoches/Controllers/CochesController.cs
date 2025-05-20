@@ -13,19 +13,29 @@ namespace MvcDynamoDbCoches.Controllers
             this.service = service;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? filtro)
         {
-            List<Coche> cars = await this.service.GetCochesAsync();
+            List<Coche> cars;
+
+            if (!string.IsNullOrEmpty(filtro))
+            {
+                cars = await this.service.BuscarCochesAsync(filtro);
+            }
+            else
+            {
+                cars = await this.service.GetCochesAsync();
+            }
+
             return View(cars);
         }
 
-        public async Task<IActionResult> Details(int idcoche)
+        public async Task<IActionResult> Details(string idcoche)
         {
             Coche car = await this.service.FindCocheAsync(idcoche);
             return View(car);
         }
 
-        public async Task<IActionResult> Delete(int idcoche)
+        public async Task<IActionResult> Delete(string idcoche)
         {
             await this.service.DeleteCocheAsync(idcoche);
             return RedirectToAction("Index");
@@ -39,6 +49,22 @@ namespace MvcDynamoDbCoches.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Coche car)
         {
+            // Asegura que el ID sea string válido
+            car.IdCoche = Guid.NewGuid().ToString();
+
+            // Verificamos si se ha informado el motor
+            if (car.Motor != null)
+            {
+                bool motorVacio = string.IsNullOrEmpty(car.Motor.Tipo)
+                    && car.Motor.Caballos == 0
+                    && car.Motor.Potencia == 0;
+
+                if (motorVacio)
+                {
+                    car.Motor = null;
+                }
+            }
+
             await this.service.CreateCocheAsync(car);
             return RedirectToAction("Index");
         }

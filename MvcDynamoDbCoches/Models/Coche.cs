@@ -17,6 +17,7 @@ namespace MvcDynamoDbCoches.Models
 
         [DynamoDBProperty("imagen")]
         public string Imagen { get; set; }
+        public Motor Motor { get; set; }
     }
 
 }

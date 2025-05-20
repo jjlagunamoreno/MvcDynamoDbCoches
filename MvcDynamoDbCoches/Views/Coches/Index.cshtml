@@ -6,6 +6,13 @@
 
 <h1>Listado de Coches</h1>
 
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="filtro" class="form-control" placeholder="Buscar por marca o modelo..." />
+        <button type="submit" class="btn btn-outline-primary">Buscar</button>
+    </div>
+</form>
+
 <p>
     <a asp-action="Create" class="btn btn-primary">Crear Nuevo Coche</a>
 </p>
@@ -18,6 +25,7 @@
                 <th>ID</th>
                 <th>Marca</th>
                 <th>Modelo</th>
+                <th>Motor</th>
                 <th>Imagen</th>
                 <th>Acciones</th>
             </tr>
@@ -29,6 +37,16 @@
                     <td>@coche.IdCoche</td>
                     <td>@coche.Marca</td>
                     <td>@coche.Modelo</td>
+                    <td>
+                        @if (coche.Motor != null)
+                        {
+                            <span class="text-success">Con motor</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Sin motor</span>
+                        }
+                    </td>
                     <td>
                         <img src="@coche.Imagen" alt="imagen de @coche.Modelo" width="100" />
                     </td>
