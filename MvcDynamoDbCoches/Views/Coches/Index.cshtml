@@ -1,0 +1,49 @@
+﻿@model List<MvcDynamoDbCoches.Models.Coche>
+
+@{
+    ViewData["Title"] = "Listado de Coches";
+}
+
+<h1>Listado de Coches</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear Nuevo Coche</a>
+</p>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var coche in Model)
+            {
+                <tr>
+                    <td>@coche.IdCoche</td>
+                    <td>@coche.Marca</td>
+                    <td>@coche.Modelo</td>
+                    <td>
+                        <img src="@coche.Imagen" alt="imagen de @coche.Modelo" width="100" />
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-idcoche="@coche.IdCoche" class="btn btn-info">Detalles</a>
+                        <a asp-action="Delete" asp-route-idcoche="@coche.IdCoche" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        No hay coches disponibles actualmente.
+    </div>
+}

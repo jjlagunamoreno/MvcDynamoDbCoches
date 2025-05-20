@@ -1,0 +1,17 @@
+﻿@model MvcDynamoDbCoches.Models.Coche
+
+@{
+    ViewData["Title"] = "Detalles del Coche";
+}
+
+<h1>Detalles del Coche</h1>
+
+<div>
+    <h4>@Model.Marca @Model.Modelo</h4>
+    <img src="@Model.Imagen" alt="Imagen de @Model.Modelo" width="200" />
+    <p><strong>ID:</strong> @Model.IdCoche</p>
+    <p><strong>Marca:</strong> @Model.Marca</p>
+    <p><strong>Modelo:</strong> @Model.Modelo</p>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Volver</a>

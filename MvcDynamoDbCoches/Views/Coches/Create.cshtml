@@ -1,0 +1,33 @@
+﻿@model MvcDynamoDbCoches.Models.Coche
+
+@{
+    ViewData["Title"] = "Crear Coche";
+}
+
+<h1>Crear Coche</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="IdCoche" class="form-label"></label>
+        <input asp-for="IdCoche" class="form-control" />
+        <span asp-validation-for="IdCoche" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Marca" class="form-label"></label>
+        <input asp-for="Marca" class="form-control" />
+        <span asp-validation-for="Marca" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Modelo" class="form-label"></label>
+        <input asp-for="Modelo" class="form-control" />
+        <span asp-validation-for="Modelo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Imagen" class="form-label"></label>
+        <input asp-for="Imagen" class="form-control" />
+        <span asp-validation-for="Imagen" class="text-danger"></span>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-success">Crear</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
